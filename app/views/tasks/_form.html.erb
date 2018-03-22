@@ -1,0 +1,5 @@
+<%= form_for(task) do |t| %>
+  <%= t.label :content, 'タスクの内容' %>
+  <%= t.text_field :content %>
+  <%= t.submit '反映' %>
+<% end %>
