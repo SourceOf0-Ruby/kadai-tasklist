@@ -1,5 +1,22 @@
 <%= form_for(task) do |t| %>
+  
+  <%# エラー出力 %> 
+  <% if task.errors.any? %>
+    <div id="error_explanation">
+      <ul>
+        <% task.errors.full_messages.each do |m| %>
+          <li><%= m %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <%# フォーム %> 
+  <%= t.label :status, '状態' %>
+  <%= t.select :status, ["新規", "未着手", "着手", "遅延", "保留", "取消", "完了"] %>
+
   <%= t.label :content, 'タスクの内容' %>
   <%= t.text_field :content %>
+
   <%= t.submit '反映' %>
 <% end %>
