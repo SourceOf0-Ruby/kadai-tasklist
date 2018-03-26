@@ -2,7 +2,8 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   
   def index
-    @tasks = Task.all;
+    # 1ページ10件ずつ表示
+    @tasks = Task.all.page(params[:page]).per(10);
   end
   
   def show

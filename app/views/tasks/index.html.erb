@@ -8,4 +8,8 @@
   <% end %>
 </ul>
 
+<div>
+  <%= paginate @tasks %>
+</div>
+
 <%= link_to 'タスクを追加する', new_task_path %>
