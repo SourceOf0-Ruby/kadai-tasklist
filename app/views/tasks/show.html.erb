@@ -1,8 +1,27 @@
 <h1>id: <%= @task.id %>のタスクの内容</h1>
 
-<%= @task.status %>
-<%= @task.content %>
+<table class="table table-dorderd">
+  <tr>
+    <th>id</th>
+    <td><%= @task.id %></td>
+  </tr>
+  <tr>
+    <th>状態</th>
+    <td><%= @task.status %></td>
+  </tr>
+  <tr>
+    <th>内容</th>
+    <td><%= @task.content %></td>
+  </tr>
+  <tr>
+    <th>作成日時</th>
+    <td><%= @task.created_at.strftime('%Y年%m月%d日 %H:%M:%S') %></td>
+  </tr>
+  <tr>
+    <th>更新日時</th>
+    <td><%= @task.updated_at.strftime('%Y年%m月%d日 %H:%M:%S') %></td>
+  </tr>
+</table>
 
-<%= link_to '一覧に戻る', tasks_path %>
-<%= link_to '編集', edit_task_path %>
-<%= link_to '削除', @task, method: :delete, data: { confirm: '本当に削除しますか？' } %>
+<%= link_to '編集', edit_task_path, class: 'btn btn-default' %>
+<%= link_to '削除', @task, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
