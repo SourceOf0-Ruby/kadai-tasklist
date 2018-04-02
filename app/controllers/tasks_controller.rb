@@ -13,6 +13,7 @@ class TasksController < ApplicationController
   def index
     @user = current_user;
     @tasks = @user.tasks.order('updated_at DESC').page(params[:page]).per(10);
+    count_remained_tasks(@user);
   end
   
   def show
