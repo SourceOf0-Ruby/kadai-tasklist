@@ -3,16 +3,8 @@
 
     <%= form_for(task) do |t| %>
       
-      <%# エラー出力 %> 
-      <% if task.errors.any? %>
-        <div class="alert alert-warning">
-          <ul>
-            <% task.errors.full_messages.each do |m| %>
-              <li><%= m %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <%# エラーメッセージをレンダリング %>
+      <%= render 'layouts/error_messages', model: f.object %>
       
       <%# フォーム %>
       <div class="form-group">
