@@ -1,29 +1,29 @@
 <div class="row">
   <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-lg-offset-3 col-lg-6">
 
-    <%= form_for(task) do |t| %>
+    <%= form_for(task) do |f| %>
       
       <%# エラーメッセージをレンダリング %>
       <%= render 'layouts/error_messages', model: f.object %>
       
       <%# フォーム %>
       <div class="form-group">
-        <%= t.label :status, '状態' %>
-        <%= t.select :status, ["新規", "未着手", "着手", "遅延", "保留", "取消", "完了"], {}, class: 'form-control' %>
+        <%= f.label :status, '状態' %>
+        <%= f.select :status, ["新規", "未着手", "着手", "遅延", "保留", "取消", "完了"], {}, class: 'form-control' %>
       </div>
       
       <div class="form-group">
-        <%= t.label :title, 'タイトル' %>
-        <%= t.text_field :title, class: 'form-control' %>
+        <%= f.label :title, 'タイトル' %>
+        <%= f.text_field :title, class: 'form-control' %>
       </div>
     
       <div class="form-group">
-        <%= t.label :content, '内容' %>
-        <%= t.text_area :content, class: 'form-control', rows: 10 %>
+        <%= f.label :content, '内容' %>
+        <%= f.text_area :content, class: 'form-control', rows: 10 %>
       </div>
       
       <div class="form-group">
-        <%= t.submit '反映', class: 'btn btn-primary' %>
+        <%= f.submit '反映', class: 'btn btn-primary' %>
       </div>
     <% end %>
     
