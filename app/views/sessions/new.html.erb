@@ -8,9 +8,6 @@
     
     <%= form_for(:session, url: login_path) do |f| %>
     
-      <%# エラーメッセージをレンダリング %>
-      <%= render 'layouts/error_messages', model: f.object %>
-
       <div class="form-group">
         <%= f.label :email, 'Email' %>
         <%= f.text_field :email, class: 'form-control' %>
