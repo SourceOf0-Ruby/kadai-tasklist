@@ -15,7 +15,9 @@ Rails.application.routes.draw do
   get 'signup', to: 'users#new';
   
   # index, new, destroyは無し
-  resources :users, only: [:show, :create, :edit, :update];
+  # TODO: show, edit, updateを後々作りたい願望
+  #resources :users, only: [:show, :create, :edit, :update];
+  resources :users, only: [:create];
 
 
   # タスク周り
