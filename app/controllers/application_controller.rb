@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   
   # 取消・完了以外のタスク総数を@count_taskにセットする
   # @param user: 対象のユーザ
-  def count_tasks(user)
+  def count_remained_tasks(user)
     @count_tasks = user.where.not( status: ["取消", "完了"] ).count;
   end
   
