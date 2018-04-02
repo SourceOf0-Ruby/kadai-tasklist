@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   
   def index
     # 1ページ10件ずつ表示
-    @tasks = Task.all.page(params[:page]).per(10);
+    @tasks = Task.all.order('updated_at DESC').page(params[:page]).per(10);
   end
   
   def show
