@@ -1,20 +1,32 @@
 class TasksController < ApplicationController
+
+  # 操作は必ずログイン済み前提とする
+  before_action :require_user_logged_in;
+  
+  # 投稿主とログインユーザが一致するかチェックする
+  before_action :correct_user;
+  
+  # 事前に指定されたidのタスクを@taskにセット
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   
+  
   def index
-    # 1ページ10件ずつ表示
-    @tasks = Task.all.order('updated_at DESC').page(params[:page]).per(10);
+    @user = current_user;
+    @tasks = @user.tasks.order('updated_at DESC').page(params[:page]).per(10);
   end
   
   def show
+    # Do nothing.
   end
   
   def new
-    @task = Task.new;
+    @user = current_user;
+    @task = @user.tasks.build;
   end
 
   def create
-    @task = Task.new(task_params);
+    @user = current_user;
+    @task = @user.tasks.build(task_params);
     
     if @task.save
       flash[:success] = 'タスクを追加しました';
@@ -56,7 +68,7 @@ class TasksController < ApplicationController
   
   # task の Strong Parameter
   def task_params
-    params.require(:task).permit(:status, :content);
+    params.require(:task).permit(:status, :title, :content);
   end
   
 end
