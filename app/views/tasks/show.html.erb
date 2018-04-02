@@ -10,6 +10,10 @@
     <td><%= @task.status %></td>
   </tr>
   <tr>
+    <th>タイトル</th>
+    <td><%= @task.title %></td>
+  </tr>
+  <tr>
     <th>内容</th>
     <td><%= @task.content %></td>
   </tr>
@@ -20,6 +24,10 @@
   <tr>
     <th>更新日時</th>
     <td><%= @task.updated_at.strftime('%Y年%m月%d日 %H:%M:%S') %></td>
+  </tr>
+  <tr>
+    <th>作成者</th>
+    <td><%= @task.user.name %></td>
   </tr>
 </table>
 

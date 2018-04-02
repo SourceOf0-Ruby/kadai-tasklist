@@ -5,13 +5,13 @@
     <tr>
       <th>id</th>
       <th>状態</th>
-      <th>内容</th>
+      <th>タイトル</th>
     </tr>
     <% @tasks.each do |task| %>
       <tr>
         <td><%= link_to task.id, task %></td>
         <td><%= task.status %></td>
-        <td><%= task.content %></td>
+        <td><%= task.title %></td>
       </tr>
     <% end %>
   </table>

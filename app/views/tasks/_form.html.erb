@@ -21,10 +21,15 @@
       </div>
       
       <div class="form-group">
-        <%= t.label :content, '内容' %>
-        <%= t.text_field :content, class: 'form-control' %>
+        <%= t.label :title, 'タイトル' %>
+        <%= t.text_field :title, class: 'form-control' %>
       </div>
     
+      <div class="form-group">
+        <%= t.label :content, '内容' %>
+        <%= t.text_area :content, class: 'form-control', rows: 10 %>
+      </div>
+      
       <div class="form-group">
         <%= t.submit '反映', class: 'btn btn-primary' %>
       </div>
