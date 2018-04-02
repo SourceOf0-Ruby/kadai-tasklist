@@ -15,7 +15,7 @@
   </tr>
   <tr>
     <th>内容</th>
-    <td><%= @task.content %></td>
+    <td><%= simple_format(h(@task.content)) %></td>
   </tr>
   <tr>
     <th>作成日時</th>
