@@ -10,5 +10,5 @@ class User < ApplicationRecord
   
   has_secure_password;
   
-  has_meny :tasks;
+  has_many :tasks;
 end
