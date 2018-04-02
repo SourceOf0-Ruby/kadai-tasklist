@@ -4,10 +4,10 @@ class TasksController < ApplicationController
   before_action :require_user_logged_in;
   
   # 投稿主とログインユーザが一致するかチェックする
-  before_action :correct_user;
+  before_action :correct_user, only: [:show, :edit, :update, :destroy];
   
   # 事前に指定されたidのタスクを@taskにセット
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :edit, :update, :destroy];
   
   
   def index
@@ -65,6 +65,17 @@ class TasksController < ApplicationController
   # 指定idのtaskを取得
   def set_task
     @task = Task.find(params[:id]);
+  end
+  
+  # 操作を行う投稿主のチェックを行う
+  # 一致しなければルートへリダイレクト
+  def correct_user
+    # ログインユーザの投稿記事から該当するものを検索する
+    task = current_user.tasks.find_by(id: params[:id]);
+    unless task
+      flash[:danger] = '操作を実行できませんでした。';
+      redirect_to root_url;
+    end
   end
   
   # task の Strong Parameter
