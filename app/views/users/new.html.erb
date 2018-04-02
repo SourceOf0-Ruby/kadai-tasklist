@@ -12,19 +12,19 @@
       <%= render 'layouts/error_messages', model: f.object %>
       
       <div class="form-group">
-        <%= f.label :name, 'Name' %>
+        <%= f.label :name, '名前' %>
         <%= f.text_field :name, class: 'form-control' %>
       </div>
       <div class="form-group">
-        <%= f.label :email, 'Email' %>
+        <%= f.label :email, 'メールアドレス' %>
         <%= f.text_field :email, class: 'form-control' %>
       </div>
       <div class="form-group">
-        <%= f.label :password, 'Password' %>
+        <%= f.label :password, 'パスワード' %>
         <%= f.password_field :password, class: 'form-control' %>
       </div>
       <div class="form-group">
-        <%= f.label :password_confirmation, 'Confirmation' %>
+        <%= f.label :password_confirmation, 'パスワード（確認のため再入力をお願いします）' %>
         <%= f.password_field :password_confirmation, class: 'form-control' %>
       </div>
       <%= f.submit 'Sign Up', class: 'btn btn-primary btn-block' %>
