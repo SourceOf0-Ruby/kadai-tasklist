@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   # 操作は必ずログイン済み前提とする
   before_action :require_user_logged_in;
   
-  # 投稿主とログインユーザが一致するかチェックする
+  # ログインユーザが一致するかチェックする
   before_action :correct_user, only: [:show, :edit, :update, :destroy];
   
   # 事前に指定されたidのタスクを@taskにセット
@@ -13,6 +13,7 @@ class TasksController < ApplicationController
   def index
     @user = current_user;
     @tasks = @user.tasks.order('updated_at DESC').page(params[:page]).per(10);
+    @states = State.all;
     count_remained_tasks(@user);
   end
   
@@ -23,11 +24,13 @@ class TasksController < ApplicationController
   def new
     @user = current_user;
     @task = @user.tasks.build;
+    @states = State.all;
   end
 
   def create
     @user = current_user;
     @task = @user.tasks.build(task_params);
+    @states = State.all;
     
     if @task.save
       flash[:success] = 'タスクを追加しました';
@@ -39,9 +42,11 @@ class TasksController < ApplicationController
   end
 
   def edit
+    @states = State.all;
   end
   
   def update
+    @states = State.all;
     if @task.update(task_params)
       flash[:success] = 'タスクを修正しました';
       redirect_to @task;
@@ -67,10 +72,10 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id]);
   end
   
-  # 操作を行う投稿主のチェックを行う
+  # 操作を行うユーザのチェックを行う
   # 一致しなければルートへリダイレクト
   def correct_user
-    # ログインユーザの投稿記事から該当するものを検索する
+    # ログインユーザのタスクから該当するものを検索する
     task = current_user.tasks.find_by(id: params[:id]);
     unless task
       flash[:danger] = '操作を実行できませんでした。';
@@ -80,7 +85,7 @@ class TasksController < ApplicationController
   
   # task の Strong Parameter
   def task_params
-    params.require(:task).permit(:status, :title, :content);
+    params.require(:task).permit(:state_id, :title, :content);
   end
   
 end

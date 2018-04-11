@@ -14,7 +14,7 @@
     <% @tasks.each do |task| %>
       <tr>
         <td><%= link_to task.id, task %></td>
-        <td><span class="label label-<%= state_class_hash[task.status] %>"><%= task.status %></span></td>
+        <td><span class="label label-<%= task.state.view_class %>"><%= task.state.name %></span></td>
         <td><%= task.title %></td>
       </tr>
     <% end %>
