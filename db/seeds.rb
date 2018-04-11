@@ -13,9 +13,3 @@ State.create(name: "遅延",   view_class: "danger",  is_effective: true);
 State.create(name: "保留",   view_class: "info",    is_effective: true);
 State.create(name: "取消",   view_class: "default", is_effective: false);
 State.create(name: "完了",   view_class: "success", is_effective: false);
-
-tasks = Task.where(state_id: nil);
-tasks.each do |task|
-  task.state = State.find_by(name: task.status);
-  task.save;
-end
