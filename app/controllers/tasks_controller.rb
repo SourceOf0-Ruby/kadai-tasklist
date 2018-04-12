@@ -11,11 +11,30 @@ class TasksController < ApplicationController
   
   
   def index
+    
     @user = current_user;
-    @tasks = @user.tasks.order('updated_at DESC').page(params[:page]).per(10);
+    @tasks = @user.tasks;
+    remained_tasks = @tasks.joins(:state).where('states.is_effective = true');
+    @count_remained_tasks = remained_tasks.count;
+    
     @states = State.all;
-    count_remained_tasks(@user);
+    
+    @tab = params[:tab];
+    @target = params[:target];
+    @keyword = params[:keyword];
+    
+    if @tab.blank?
+      @tasks = remained_tasks;
+    elsif @tab != '0'
+      @tasks = @tasks.where('state_id = ?', @tab);
+    end
+    @tasks = @tasks.search(['title'], @keyword) if @target == '1';
+    @tasks = @tasks.search(['content'], @keyword) if @target == '2';
+    @tasks = @tasks.search(['title', 'content'], @keyword) if @target == '3';
+    @tasks = @tasks.order('updated_at DESC').page(params[:page]).per(20);
+    
   end
+  
   
   def show
     # Do nothing.

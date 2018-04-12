@@ -17,10 +17,4 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # 取消・完了以外のタスク総数を@count_taskにセットする
-  # @param user: 対象のユーザ
-  def count_remained_tasks(user)
-    @count_remained_tasks = user.tasks.joins(:state).where('states.is_effective = true').count;
-  end
-  
 end

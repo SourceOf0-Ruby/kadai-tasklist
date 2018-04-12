@@ -1,10 +1,38 @@
 <h1>タスク一覧</h1>
 
-<p class="text-center">
-  <strong>残タスク数 <span class="badge"><%= @count_remained_tasks %></span></strong>
-</p>
+<div class="search">
+  <div class="row">
+    <div class="text-center">
+      <%= form_tag(tasks_path, method: :get, class: 'form-inline') do %>
+        <%= hidden_field_tag :tab, @tab %>
+        <div class="form-group">
+          <%= select_tag :target, options_for_select([['指定なし', 3], ['タイトル', 1], ['内容', 2]], @target), class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= text_field_tag :keyword, @keyword, class: 'form-control', placeholder: 'キーワードを入力', size: 40 %>
+        </div>
+        <%# MEMO: nameを指定してURLにcommit=検索が付かないようにしている %>
+        <%= submit_tag '検索', name: nil, class: 'btn btn-success' %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<ul class="nav nav-tabs">
+  <li class="<%= 'active' unless @tab.present? %>">
+    <%= link_to tasks_path do %>
+      残タスク数 <span class="badge"><%= @count_remained_tasks %></span>
+    <% end %>
+  </li>
+  <li class="<%= 'active' if @tab == '0' %>"><%= link_to '全て', tasks_path(tab: 0) %></li>
+  <% @states.each do |state| %>
+    <li class="<%= 'active' if state.id.to_s === @tab %>"><%= link_to state.name, tasks_path(tab: state.id) %></li>
+  <% end %>
+</ul>
 
 <% if @tasks.any? %>
+
   <table class="table table-striped">
     <tr>
       <th>id</th>
@@ -23,8 +51,7 @@
   <div>
     <%= paginate @tasks %>
   </div>
+  
 <% else %>
-  <p>タスクが登録されていません</p>
+  <p>タスクが見つかりませんでした。</p>
 <% end %>
-
-<%= link_to 'タスクを追加する', new_task_path, class: 'btn btn-primary' %>

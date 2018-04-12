@@ -29,15 +29,7 @@ class UsersController < ApplicationController
     end
   end
   
-  def edit
-    # TODO: 実装
-  end
-  
-  def update
-    # TODO: 実装
-  end
-  
-  
+
   private
   # 以下privateメンバ
   
