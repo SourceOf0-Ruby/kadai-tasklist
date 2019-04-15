@@ -18,6 +18,7 @@ class Task < ApplicationRecord
     result = self;
     patterns = keyword.split(/[ ,　]/);
     patterns.each do |pattern|
+      next if pattern == "" 
       sql_array = [''];
       targets.each_with_index do |target, index|
         sql_array[0] += ' OR ' if index > 0;
