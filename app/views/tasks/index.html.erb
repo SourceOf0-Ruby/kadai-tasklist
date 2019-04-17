@@ -3,31 +3,33 @@
 <div class="search">
   <div class="row">
     <div class="text-center">
-      <%= form_tag(tasks_path, method: :get, class: 'form-inline') do %>
-        <%= hidden_field_tag :tab, @tab %>
+      <%= form_for(@form, url: tasks_path, method: :get, html: { class: 'form-inline'} ) do |f| %>
+        <%= f.hidden_field :tab %>
         <div class="form-group">
-          <%= select_tag :target, options_for_select([['指定なし', 3], ['タイトル', 1], ['内容', 2]], @target), class: 'form-control' %>
+          <%= f.text_field :tag, class: 'form-control', placeholder: 'タグ名を入力', size: 20 %>
         </div>
         <div class="form-group">
-          <%= text_field_tag :keyword, @keyword, class: 'form-control', placeholder: 'キーワードを入力', size: 40 %>
+          <%= f.select :target, [['検索対象指定なし', 3], ['タイトル', 1], ['内容', 2]], {}, class: 'form-control' %>
+        </div>
+        <div class="form-group">
+          <%= f.text_field :keyword, class: 'form-control', placeholder: 'キーワードを入力', size: 40 %>
         </div>
         <%# MEMO: nameを指定してURLにcommit=検索が付かないようにしている %>
-        <%= submit_tag '検索', name: nil, class: 'btn btn-success' %>
+        <%= f.submit '検索', name: nil, class: 'btn btn-success' %>
       <% end %>
     </div>
   </div>
 </div>
 
-
 <ul class="nav nav-tabs">
-  <li class="<%= 'active' unless @tab.present? %>">
-    <%= link_to tasks_path do %>
+  <li class="<%= 'active' unless @form.tab.present? %>">
+    <%= link_to tasks_path(search_form: @form.attributes(tab: nil)) do %>
       残タスク数 <span class="badge"><%= @count_remained_tasks %></span>
     <% end %>
   </li>
-  <li class="<%= 'active' if @tab == '0' %>"><%= link_to '全て', tasks_path(tab: 0) %></li>
+  <li class="<%= 'active' if @form.tab == '0' %>"><%= link_to '全て', tasks_path(search_form: @form.attributes(tab: 0)) %></li>
   <% @states.each do |state| %>
-    <li class="<%= 'active' if state.id.to_s === @tab %>"><%= link_to state.name, tasks_path(tab: state.id) %></li>
+    <li class="<%= 'active' if state.id.to_s === @form.tab %>"><%= link_to state.name, tasks_path(search_form: @form.attributes(tab: state.id)) %></li>
   <% end %>
 </ul>
 
@@ -37,12 +39,18 @@
     <tr>
       <th>id</th>
       <th>状態</th>
+      <th>タグ</th>
       <th>タイトル</th>
     </tr>
     <% @tasks.each do |task| %>
       <tr>
         <td><%= link_to task.id, task %></td>
         <td><span class="label label-<%= task.state.view_class %>"><%= task.state.name %></span></td>
+        <td>
+          <% task.tags.each do |tag| %>
+            <%= link_to ('#' + tag.name), tasks_path(search_form: @form.attributes(tag: tag.name)) %>&nbsp;
+          <% end %>
+        </td>
         <td><%= task.title %></td>
       </tr>
     <% end %>

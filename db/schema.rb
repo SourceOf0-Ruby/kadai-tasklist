@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180411101153) do
+ActiveRecord::Schema.define(version: 20190415053118) do
+
+  create_table "relationships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "tag_id"
+    t.integer  "task_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag_id"], name: "index_relationships_on_tag_id", using: :btree
+    t.index ["task_id"], name: "index_relationships_on_task_id", using: :btree
+  end
 
   create_table "states", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -18,6 +27,12 @@ ActiveRecord::Schema.define(version: 20180411101153) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.boolean  "is_effective"
+  end
+
+  create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tasks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -39,6 +54,8 @@ ActiveRecord::Schema.define(version: 20180411101153) do
     t.datetime "updated_at",      null: false
   end
 
+  add_foreign_key "relationships", "tags"
+  add_foreign_key "relationships", "tasks"
   add_foreign_key "tasks", "states"
   add_foreign_key "tasks", "users"
 end

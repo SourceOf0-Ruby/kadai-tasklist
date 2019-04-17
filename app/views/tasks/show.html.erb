@@ -10,6 +10,14 @@
     <td><span class="label label-<%= @task.state.view_class %>"><%= @task.state.name %></span></td>
   </tr>
   <tr>
+    <th>タグ</th>
+    <td>
+    <% @task.tags.each do |tag| %>
+      #<%= tag.name %>&nbsp;
+    <% end %>
+    </td>
+  </tr>
+  <tr>
     <th>タイトル</th>
     <td><%= @task.title %></td>
   </tr>
