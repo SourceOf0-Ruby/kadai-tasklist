@@ -9,7 +9,7 @@
           <%= f.text_field :tag, class: 'form-control', placeholder: 'タグ名を入力', size: 20 %>
         </div>
         <div class="form-group">
-          <%= f.select :target, [['検索対象指定なし', 3], ['タイトル', 1], ['内容', 2]], {}, class: 'form-control' %>
+          <%= f.select :target, SearchForm.target_str_list, {}, class: 'form-control' %>
         </div>
         <div class="form-group">
           <%= f.text_field :keyword, class: 'form-control', placeholder: 'キーワードを入力', size: 40 %>
@@ -22,14 +22,14 @@
 </div>
 
 <ul class="nav nav-tabs">
-  <li class="<%= 'active' unless @form.tab.present? %>">
+  <li class="<%= 'active' unless @tab.present? %>">
     <%= link_to tasks_path(search_form: @form.attributes(tab: nil)) do %>
       残タスク数 <span class="badge"><%= @count_remained_tasks %></span>
     <% end %>
   </li>
-  <li class="<%= 'active' if @form.tab == '0' %>"><%= link_to '全て', tasks_path(search_form: @form.attributes(tab: 0)) %></li>
+  <li class="<%= 'active' if @tab == '0' %>"><%= link_to '全て', tasks_path(search_form: @form.attributes(tab: 0)) %></li>
   <% @states.each do |state| %>
-    <li class="<%= 'active' if state.id.to_s === @form.tab %>"><%= link_to state.name, tasks_path(search_form: @form.attributes(tab: state.id)) %></li>
+    <li class="<%= 'active' if state.id.to_s === @tab%>"><%= link_to state.name, tasks_path(search_form: @form.attributes(tab: state.id)) %></li>
   <% end %>
 </ul>
 
