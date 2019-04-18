@@ -29,6 +29,8 @@ class TasksController < ApplicationController
     end
     @tasks = @tasks.order('updated_at DESC').page(params[:page]).per(20).preload(:state, :tags);
     
+    @tags = Tag.where(id: Relationship.where(task_id: @user.tasks.ids).select(:tag_id));
+    
   end
   
   

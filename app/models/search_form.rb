@@ -32,7 +32,7 @@ class SearchForm
     if @tag.blank?
       tasks = user.tasks;
     else
-      tag = Tag.find_by(name: @tag);
+      tag = Tag.find(@tag);
       if tag
         tasks = user.tasks.where(id: Relationship.where(tag_id: tag.id).select(:task_id));
       else
