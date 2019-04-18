@@ -48,7 +48,7 @@ class TasksController < ApplicationController
     @task = @user.tasks.build(task_params);
     @states = State.all;
     
-    if @task.save
+    if @task.save && @task.amend_tags
       flash[:success] = 'タスクを追加しました';
       redirect_to @task;
     else
@@ -66,7 +66,7 @@ class TasksController < ApplicationController
   def update
     @states = State.all;
     
-    if @task.update(task_params)
+    if @task.update(task_params) && @task.amend_tags
       flash[:success] = 'タスクを修正しました';
       redirect_to @task;
     else

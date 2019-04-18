@@ -10,16 +10,23 @@ class Task < ApplicationRecord
   
   validates :content, length: { maximum: 100000 };
   
-  has_many :relationships;
+  has_many :relationships, dependent: :destroy;
   has_many :tags, through: :relationships, source: :tag;
+  
+  attr_accessor :tags_list;
   
   #タグ文字列
   def tags_str
-    self.tags.map(&:name).join(' ');
+    if @tags_list
+      @tags_list.join(' ');
+    else 
+      self.tags.map(&:name).join(' ');
+    end
   end
+  
   def tags_str=(tags_str)
-    tags_str = [] if tags_str.blank?;
-    amend_tags(tags_str.split(/[ ,　]/).reject(&:blank?));
+    tags_str = "" if tags_str.blank?;
+    @tags_list = tags_str.split(/[ ,　]/).reject(&:blank?);
   end
   
   # タスクを検索する
@@ -45,26 +52,25 @@ class Task < ApplicationRecord
     end
   end
   
-  # タグを追加する
-  # @param tag_names: タグの名前の配列
-  def add_tags(tag_names)
-    tag_names.each do |tag_name|
+  # タグを整理する（タグの追加・削除）
+  def amend_tags
+    unless self.new_record? || self.relationships.count == 0
+      if !@tags_list || @tags_list.length == 0
+        self.relationships.destroy_all;
+        return true;
+      end
+      self.relationships.joins(:tag).where.not(tags: { name: @tags_list }).delete_all;
+    end
+    @tags_list.each do |tag_name|
       next if tag_name == "";
       tag_name.slice!(/^#/);
       tag = Tag.find_or_create_by(name: tag_name);
-      self.relationships.find_or_initialize_by(tag_id: tag.id);
+      if self.new_record? || !self.relationships.find_by(tag_id: tag.id)
+        relationship = self.relationships.build(tag_id: tag.id);
+        return false unless relationship.save;
+      end
     end
-  end
-  
-  # タグを整理する（タグの追加・削除）
-  # @param tag_names: タグの名前の配列
-  def amend_tags(tag_names)
-    if !tag_names || tag_names.length == 0
-      self.relationships.destroy_all;
-      return;
-    end
-    self.relationships.joins(:tag).where.not(tags: { name: tag_names }).delete_all;
-    add_tags(tag_names);
+    return true;
   end
   
 end
