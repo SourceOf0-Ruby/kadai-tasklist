@@ -14,8 +14,13 @@
       </div>
       
       <div class="form-group">
+        <datalist id="tag-words">
+          <% @tags.each do |tag| %>
+            <option value="<%= tag.name %>">
+          <% end %>
+        </datalist>
         <%= f.label :tags_str, 'タグ' %>
-        <%= f.text_field :tags_str, value: task.tags.map(&:name).join(' '), class: 'form-control' %>
+        <%= f.text_field :tags_str, value: task.tags.map(&:name).join(' '), list: 'tag-words', class: 'form-control' %>
       </div>
       
       <div class="form-group">

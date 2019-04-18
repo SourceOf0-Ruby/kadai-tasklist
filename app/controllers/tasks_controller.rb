@@ -9,7 +9,6 @@ class TasksController < ApplicationController
   # 事前に指定されたidのタスクを@taskにセット
   before_action :set_task, only: [:show, :edit, :update, :destroy];
   
-  
   def index
     
     @form = SearchForm.new(search_form_params);
@@ -29,8 +28,7 @@ class TasksController < ApplicationController
     end
     @tasks = @tasks.order('updated_at DESC').page(params[:page]).per(20).preload(:state, :tags);
     
-    @tags = Tag.where(id: Relationship.where(task_id: @user.tasks.ids).select(:tag_id));
-    
+    set_tags
   end
   
   
@@ -42,6 +40,7 @@ class TasksController < ApplicationController
     @user = current_user;
     @task = @user.tasks.build;
     @states = State.all;
+    set_tags
   end
 
   def create
@@ -54,12 +53,14 @@ class TasksController < ApplicationController
       redirect_to @task;
     else
       flash.now[:danger] = 'タスクの追加に失敗しました';
+      set_tags
       render :new;
     end
   end
 
   def edit
     @states = State.all;
+    set_tags
   end
   
   def update
@@ -70,6 +71,7 @@ class TasksController < ApplicationController
       redirect_to @task;
     else
       flash.now[:danger] = 'タスクの修正に失敗しました';
+      set_tags
       render :edit;
     end
   end
@@ -88,6 +90,11 @@ class TasksController < ApplicationController
   # 指定idのtaskを取得
   def set_task
     @task = Task.find(params[:id]);
+  end
+  
+  # tagの一覧を取得
+  def set_tags
+    @tags = Tag.where(id: Relationship.where(task_id: current_user.tasks.ids).select(:tag_id));
   end
   
   # 操作を行うユーザのチェックを行う
