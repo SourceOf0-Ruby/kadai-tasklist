@@ -55,6 +55,10 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Add---------
 
+# load environment variables from `.env` 
+# please add dotenv-rails file `.env` to .gitignore
+gem 'dotenv-rails'
+
 # Debug tool
 gem 'pry-byebug', group: :development
 
