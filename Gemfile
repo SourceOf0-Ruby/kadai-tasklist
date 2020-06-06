@@ -61,7 +61,7 @@ gem 'dotenv-rails'
 gem 'pry-byebug', group: :development
 
 # Paginator
-gem 'kaminari'
+gem 'kaminari', '>= 1.2.1'
 
 # for heroku
 group :production do
